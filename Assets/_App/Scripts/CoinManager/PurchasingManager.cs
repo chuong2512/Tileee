@@ -4,66 +4,72 @@ using UnityEngine;
 
 public class PurchasingManager : MonoBehaviour
 {
-   public void OnPressDown(int i)
-   {
-      var resetPowerQuantity = PlayerPrefs.GetInt("ResetPower", 0);
-      var clearPowerQuantity = PlayerPrefs.GetInt("ClearPower", 0);
-      switch (i)
-      {
-         case 1:
-            IAPManager.OnPurchaseSuccess = () =>
-            {
-               PlayerPrefs.SetInt("ResetPower", resetPowerQuantity + 5);
-            };
-            IAPManager.Instance.BuyProductID(IAPKey.PACK1);
-            break;
-         case 2:
-            IAPManager.OnPurchaseSuccess = () =>
-            {
-               PlayerPrefs.SetInt("ResetPower", resetPowerQuantity + 10);
-            };
-            IAPManager.Instance.BuyProductID(IAPKey.PACK2);
-            break;
-         case 3:
-            IAPManager.OnPurchaseSuccess = () =>
-            {
-               PlayerPrefs.SetInt("ResetPower", resetPowerQuantity + 20);
-            };
-            IAPManager.Instance.BuyProductID(IAPKey.PACK3);
-            break;
-         case 4:
-            IAPManager.OnPurchaseSuccess = () =>
-            {
-               PlayerPrefs.SetInt("ClearPower", clearPowerQuantity + 5);
-            };
-            IAPManager.Instance.BuyProductID(IAPKey.PACK4);
-            break;
-         case 5:
-            IAPManager.OnPurchaseSuccess = () =>
-            {
-               PlayerPrefs.SetInt("ClearPower", clearPowerQuantity + 20);
-            };
-            IAPManager.Instance.BuyProductID(IAPKey.PACK5);
-            break;
-         case 6:
-            IAPManager.OnPurchaseSuccess = () =>
-            {
-               PlayerPrefs.SetInt("ClearPower", clearPowerQuantity + 40);
-            };
-            IAPManager.Instance.BuyProductID(IAPKey.PACK6);
-            break;
-      }
-      
-      GameObject currentWindow = StackManager.Instance.PeekWindow ();
-      StackManager.Instance.PopWindow ();
-      Destroy (currentWindow);
-      
-      GameController.Instance.UpdateResetPowerQuantityText();
-      GameController.Instance.UpdateClearPowerQuantityText();
-   }
+	public void OnPressDown(int i)
+	{
+		var resetPowerQuantity=PlayerPrefs.GetInt("ResetPower",0);
+		var clearPowerQuantity=PlayerPrefs.GetInt("ClearPower",0);
+		switch (i)
+		{
+			case 1:
+				IAPManager.OnPurchaseSuccess=() =>
+				{
+					PlayerPrefs.SetInt("ResetPower",resetPowerQuantity+5);
+					OnClose();
+				};
+				IAPManager.Instance.BuyProductID(IAPKey.PACK1);
+				break;
+			case 2:
+				IAPManager.OnPurchaseSuccess=() =>
+				{
+					PlayerPrefs.SetInt("ResetPower",resetPowerQuantity+10);
+					OnClose();
+				};
+				IAPManager.Instance.BuyProductID(IAPKey.PACK2);
+				break;
+			case 3:
+				IAPManager.OnPurchaseSuccess=() =>
+				{
+					PlayerPrefs.SetInt("ResetPower",resetPowerQuantity+20);
+					OnClose();
+				};
+				IAPManager.Instance.BuyProductID(IAPKey.PACK3);
+				break;
+			case 4:
+				IAPManager.OnPurchaseSuccess=() =>
+				{
+					PlayerPrefs.SetInt("ClearPower",clearPowerQuantity+5);
+					OnClose();
+				};
+				IAPManager.Instance.BuyProductID(IAPKey.PACK4);
+				break;
+			case 5:
+				IAPManager.OnPurchaseSuccess=() =>
+				{
+					PlayerPrefs.SetInt("ClearPower",clearPowerQuantity+20);
+					OnClose();
+				};
+				IAPManager.Instance.BuyProductID(IAPKey.PACK5);
+				break;
+			case 6:
+				IAPManager.OnPurchaseSuccess=() =>
+				{
+					PlayerPrefs.SetInt("ClearPower",clearPowerQuantity+40);
+					OnClose();
+				};
+				IAPManager.Instance.BuyProductID(IAPKey.PACK6);
+				break;
+		}
+	}
 
-   public void Sub(int i)
-   {
-      GameDataManager.Instance.playerData.SubDiamond(i);
-   }
+	private void OnClose()
+	{
+		GameObject currentWindow=StackManager.Instance.PeekWindow();
+		StackManager.Instance.PopWindow();
+		Destroy(currentWindow);
+
+		GameController.Instance.UpdateResetPowerQuantityText();
+		GameController.Instance.UpdateClearPowerQuantityText();
+	}
+
+	public void Sub(int i) { GameDataManager.Instance.playerData.SubDiamond(i); }
 }
